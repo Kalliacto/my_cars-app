@@ -1,6 +1,7 @@
 import { ThisReceiver } from '@angular/compiler';
 import {Component, HostListener} from '@angular/core';
 import { FormBuilder , Validators} from '@angular/forms';
+import { AppService } from './app.service';
 
 @Component({
   selector: 'app-root',
@@ -15,74 +16,81 @@ export class AppComponent {
     car: ['', Validators.required],
   });
 
-  carsData = [
-    {
-      img: 'car_1.jpg',
-      name: 'Lamborghini Huracan Spyder',
-      transmission: 'автомат',
-      engine: 5.2,
-      year: 2019,
-    },
-    {
-      img: 'car_2.jpg',
-      name: 'Chevrolet Corvette',
-      transmission: 'автомат',
-      engine: 6.2,
-      year: 2017,
-    },
-    {
-      img: 'car_3.jpg',
-      name: 'Ferrari California',
-      transmission: 'автомат',
-      engine: 3.9,
-      year: 2010,
-    },
-    {
-      img: 'car_4.jpg',
-      name: 'Lamborghini Huracan Spyder',
-      transmission: 'автомат',
-      engine: 4.0,
-      year: 2019,
-    },
-    {
-      img: 'car_5.jpg',
-      name: 'Audi R8r',
-      transmission: 'автомат',
-      engine: 5.2,
-      year: 2018,
-    },
-    {
-      img: 'car_6.jpg',
-      name: 'Аренда Chevrolet Camaro',
-      transmission: 'автомат',
-      engine: 2.0,
-      year: 2019,
-    },
-    {
-      img: '7.png',
-      name: 'Maserati Quattroporte',
-      transmission: 'автомат',
-      engine: 3.0,
-      year: 2018,
-    },
-    {
-      img: '8.png',
-      name: 'Dodge Challenger',
-      transmission: 'автомат',
-      engine: 6.4,
-      year: 2019,
-    },
-    {
-      img: '9.png',
-      name: 'Nissan GT-R',
-      transmission: 'автомат',
-      engine: 3.8,
-      year: 2019,
-    },
-  ];
+  // carsData = [
+  //   {
+  //     img: 'car_1.jpg',
+  //     name: 'Lamborghini Huracan Spyder',
+  //     transmission: 'автомат',
+  //     engine: 5.2,
+  //     year: 2019,
+  //   },
+  //   {
+  //     img: 'car_2.jpg',
+  //     name: 'Chevrolet Corvette',
+  //     transmission: 'автомат',
+  //     engine: 6.2,
+  //     year: 2017,
+  //   },
+  //   {
+  //     img: 'car_3.jpg',
+  //     name: 'Ferrari California',
+  //     transmission: 'автомат',
+  //     engine: 3.9,
+  //     year: 2010,
+  //   },
+  //   {
+  //     img: 'car_4.jpg',
+  //     name: 'Lamborghini Huracan Spyder',
+  //     transmission: 'автомат',
+  //     engine: 4.0,
+  //     year: 2019,
+  //   },
+  //   {
+  //     img: 'car_5.jpg',
+  //     name: 'Audi R8r',
+  //     transmission: 'автомат',
+  //     engine: 5.2,
+  //     year: 2018,
+  //   },
+  //   {
+  //     img: 'car_6.jpg',
+  //     name: 'Аренда Chevrolet Camaro',
+  //     transmission: 'автомат',
+  //     engine: 2.0,
+  //     year: 2019,
+  //   },
+  //   {
+  //     img: '7.png',
+  //     name: 'Maserati Quattroporte',
+  //     transmission: 'автомат',
+  //     engine: 3.0,
+  //     year: 2018,
+  //   },
+  //   {
+  //     img: '8.png',
+  //     name: 'Dodge Challenger',
+  //     transmission: 'автомат',
+  //     engine: 6.4,
+  //     year: 2019,
+  //   },
+  //   {
+  //     img: '9.png',
+  //     name: 'Nissan GT-R',
+  //     transmission: 'автомат',
+  //     engine: 3.8,
+  //     year: 2019,
+  //   },
+  // ];
   
-  constructor (private fb: FormBuilder) {
+  carsData: any;
+
+  constructor (private fb: FormBuilder, private appService: AppService) {
   }
+
+  ngOnInit() {
+    this.appService.getData().subscribe(carsData => this.carsData = carsData);
+  }
+
 
   goScroll(target: HTMLElement, car?: any) {
     target.scrollIntoView({behavior: "smooth"});
@@ -105,8 +113,19 @@ onScroll() {
 
   onSubmit() {
     if (this.priceForm.valid) {
-      alert('Спасибо за заявку, мы свяжемся с вами в ближайшее время!');
-      this.priceForm.reset();
+
+      this.appService.sendQuery(this.priceForm.value)
+      .subscribe(
+        {
+          next: (response: any) => {
+            alert(response.message);
+            this.priceForm.reset();
+          },
+          error: (response) => {
+            alert(response.error.message);
+          }
+        }
+      );
     }
   }
 }

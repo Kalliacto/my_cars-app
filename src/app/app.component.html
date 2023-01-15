@@ -2,7 +2,7 @@
 <header class="header">
     <div class="container">
         <div class="logo">
-            <img src="../assets/img/logo.png" alt="Logo">
+            <img src="assets/img/logo.png" alt="Logo">
         </div>
         <nav class="menu">
             <ul>
@@ -42,22 +42,22 @@
         <div class="cart-items">
             <div class="car-item" *ngFor="let car of carsData">
                 <div class="car-item-img">
-                    <img src="../assets/img/{{car.img}}" alt="car">
+                    <img src="{{car.image}}" alt="car">
                 </div>
                 <h3 class="car-item-title">{{car.name}}</h3>
                 <div class="car-item-info">
                     <div class="car-item-point">
-                        <img src="../assets/img/transmission.png" alt="Transmission">
+                        <img src="assets/img/transmission.png" alt="Transmission">
                         <p>Коробка</p>
                         <p>{{car.transmission}}</p>
                     </div>
                     <div class="car-item-point">
-                        <img src="../assets/img/wheel.png" alt="wheel">
+                        <img src="assets/img/wheel.png" alt="wheel">
                         <p>Двигатель</p>
                         <p>{{car.engine}} л.с.</p>
                     </div>
                     <div class="car-item-point">
-                        <img src="../assets/img/year.png" alt="Year">
+                        <img src="assets/img/year.png" alt="Year">
                         <p>Год выпуска</p>
                         <p>{{car.year}}</p>
                     </div>
@@ -81,13 +81,13 @@
             <input type="text" class="price-input" id="car" placeholder="Автомобиль, который ва с интересует" formControlName="car">
             <button class="button" id="price-action" (click)="onSubmit()" [disabled]="!priceForm.valid">Узнать цену</button>
         </form>
-        <img src="../assets/img/rolls.png" alt="Rolls" class="price-img" [ngStyle]="trans">
+        <img src="assets/img/rolls.png" alt="Rolls" class="price-img" [ngStyle]="trans">
     </div>
 </section>
 <footer class="footer">
     <div class="container">
         <div class="logo">
-            <img src="../assets/img/logo.png" alt="Logo">
+            <img src="assets/img/logo.png" alt="Logo">
         </div>
         <div class="rights">
             Все права защищены
